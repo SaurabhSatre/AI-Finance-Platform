@@ -41,6 +41,8 @@ export function CreateAccountDrawer({ children }) {
     resolver: zodResolver(accountSchema),
     defaultValues: {
       name: "",
+      bname: "",
+      ifsc: "",
       type: "CURRENT",
       balance: "",
       isDefault: false,
@@ -77,7 +79,7 @@ export function CreateAccountDrawer({ children }) {
       <DrawerTrigger asChild>{children}</DrawerTrigger>
       <DrawerContent>
         <DrawerHeader>
-          <DrawerTitle>Create New Account</DrawerTitle>
+          <DrawerTitle>Create New Welth Account</DrawerTitle>
         </DrawerHeader>
         <div className="px-4 pb-4">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -86,7 +88,7 @@ export function CreateAccountDrawer({ children }) {
                 htmlFor="name"
                 className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
-                Account Name
+                Account Number
               </label>
               <Input
                 id="name"
@@ -97,6 +99,28 @@ export function CreateAccountDrawer({ children }) {
                 <p className="text-sm text-red-500">{errors.name.message}</p>
               )}
             </div>
+            <div className="flex gap-4">
+              <div className="flex-1 space-y-2">
+                <label htmlFor="bname" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                  Bank Name
+                </label>
+                <Input id="bname" placeholder="Enter bank name" {...register("bname")} />
+                {errors.bname && (
+                  <p className="text-sm text-red-500">{errors.bname.message}</p>
+                )}
+              </div>
+              <div className="flex-1 space-y-2">
+                <label htmlFor="ifsc" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                  IFSC Code
+                </label>
+                <Input id="ifsc" placeholder="e.g., Enter IFSC code" {...register("ifsc")} />
+                {errors.ifsc && (
+                  <p className="text-sm text-red-500">{errors.ifsc.message}</p>
+                )}
+              </div>
+            </div>
+
+
 
             <div className="space-y-2">
               <label

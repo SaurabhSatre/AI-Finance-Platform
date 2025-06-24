@@ -26,6 +26,8 @@ model User {
 model Account {
   id           String        @id @default(uuid())
   name         String
+  bname        String
+  ifsc         String
   type         AccountType
   balance      Decimal       @default(0) // will ask inital balance while creating an account
   isDefault    Boolean       @default(false)

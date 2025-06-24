@@ -2,6 +2,8 @@ import { z } from "zod";
 
 export const accountSchema = z.object({
   name: z.string().min(1, "Name is required"),
+  bname:z.string().min(1, "Bank name is required"),
+  ifsc:z.string().min(1, "IAFC code is required"),
   type: z.enum(["CURRENT", "SAVINGS"]),
   balance: z.string().min(1, "Initial balance is required"),
   isDefault: z.boolean().default(false),

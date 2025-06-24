@@ -17,7 +17,7 @@ import { updateDefaultAccount } from "@/actions/account";
 import { toast } from "sonner";
 
 export function AccountCard({ account }) {
-  const { name, type, balance, id, isDefault } = account;
+  const { name, bname, type, balance, id, isDefault } = account;
 
   const {
     loading: updateDefaultLoading,
@@ -53,9 +53,14 @@ export function AccountCard({ account }) {
     <Card className="hover:shadow-md transition-shadow group relative">
       <Link href={`/account/${id}`}>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium capitalize">
-            {name}
-          </CardTitle>
+          <div className="text-sm">
+            <p className="font-semibold text-gray-900">
+              Account No: <span className="font-normal text-gray-700">{name}</span>
+            </p>
+            <p className="font-semibold text-gray-900">
+              Bank: <span className="font-normal text-gray-700">{bname}</span>
+            </p>
+          </div>
           <Switch
             checked={isDefault}
             onClick={handleDefaultChange}

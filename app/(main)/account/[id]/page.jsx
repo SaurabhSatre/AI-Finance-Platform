@@ -17,15 +17,15 @@ export default async function AccountPage({ params }) {
   return (
     <div className="space-y-8 px-5">
       <div className="flex gap-4 items-end justify-between">
-        <div>
-          <h1 className="text-5xl sm:text-6xl font-bold tracking-tight gradient-title capitalize">
+        <div className="space-y-1">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-purple-700">
             {account.name}
           </h1>
-          <p className="text-muted-foreground">
-            {account.type.charAt(0) + account.type.slice(1).toLowerCase()}{" "}
-            Account
+          <p className="text-sm sm:text-base text-muted-foreground">
+            Bank: <span className="font-medium text-gray-900">{account.bname}</span>
           </p>
         </div>
+
 
         <div className="text-right pb-2">
           <div className="text-xl sm:text-2xl font-bold">
