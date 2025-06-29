@@ -1,9 +1,17 @@
 import { z } from "zod";
 
 export const accountSchema = z.object({
-  name: z.string().min(1, "Name is required"),
+  name: z.string()
+    .regex(/^\d+$/, "Only numbers are allowed")
+    .min(9, "Account number must be at least 9 digits")
+    .max(18, "Account number cannot exceed 18 digits"),
   bname:z.string().min(1, "Bank name is required"),
-  ifsc:z.string().min(1, "IAFC code is required"),
+  ifsc: z.string()
+    .length(11, "IFSC code must be exactly 11 characters")
+    .regex(
+      /^[A-Z]{4}0\d{6}$/,
+      "IFSC must start with 4 capital letters, followed by 0, and end with 6 digits"
+    ),
   type: z.enum(["CURRENT", "SAVINGS"]),
   balance: z.string().min(1, "Initial balance is required"),
   isDefault: z.boolean().default(false),

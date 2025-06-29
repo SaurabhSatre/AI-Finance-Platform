@@ -181,7 +181,7 @@ export function AddTransactionForm({
             <SelectContent>
               {accounts.map((account) => (
                 <SelectItem key={account.id} value={account.id}>
-                  Acc: {account.name} ({account.bname})  (₹{parseFloat(account.balance).toFixed(2)})
+                  A/C: {account.name} ({account.bname})  (₹{parseFloat(account.balance).toFixed(2)})
                 </SelectItem>
               ))}
               <CreateAccountDrawer>

@@ -60,6 +60,66 @@ export function CreateAccountDrawer({ children }) {
     await createAccountFn(data);
   };
 
+  const handleAccountNumberChange = (e) => {
+    // Remove any non-digit characters
+    const value = e.target.value.replace(/\D/g, '');
+    setValue('name', value);
+  };
+
+  const handleAccountNumberKeyPress = (e) => {
+    // Allow only digits and control keys
+    if (!/[\d]/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Delete' && e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') {
+      e.preventDefault();
+    }
+  };
+
+  const handleIFSCChange = (e) => {
+    // Convert to uppercase and remove any invalid characters
+    let value = e.target.value.toUpperCase();
+    
+    // Apply IFSC format rules
+    if (value.length <= 4) {
+      // First 4 characters: only letters
+      value = value.replace(/[^A-Z]/g, '');
+    } else if (value.length === 5) {
+      // 5th character: must be 0
+      value = value.slice(0, 4) + '0';
+    } else if (value.length > 5) {
+      // Last 6 characters: only numbers
+      const firstPart = value.slice(0, 4);
+      const remainingPart = value.slice(5).replace(/[^0-9]/g, '');
+      value = firstPart + '0' + remainingPart;
+    }
+
+    // Limit to 11 characters
+    value = value.slice(0, 11);
+    
+    setValue('ifsc', value);
+  };
+
+  const handleIFSCKeyPress = (e) => {
+    const position = e.target.selectionStart;
+    
+    // For first 4 characters, allow only letters
+    if (position < 4 && !/[A-Za-z]/.test(e.key)) {
+      if (e.key !== 'Backspace' && e.key !== 'Delete' && e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') {
+        e.preventDefault();
+      }
+    }
+    // For 5th character, only allow 0
+    else if (position === 4 && e.key !== '0') {
+      if (e.key !== 'Backspace' && e.key !== 'Delete' && e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') {
+        e.preventDefault();
+      }
+    }
+    // For last 6 characters, allow only numbers
+    else if (position >= 5 && !/[\d]/.test(e.key)) {
+      if (e.key !== 'Backspace' && e.key !== 'Delete' && e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') {
+        e.preventDefault();
+      }
+    }
+  };
+
   useEffect(() => {
     if (newAccount) {
       toast.success("Account created successfully");
@@ -92,8 +152,15 @@ export function CreateAccountDrawer({ children }) {
               </label>
               <Input
                 id="name"
-                placeholder="e.g., Main Checking"
-                {...register("name")}
+                type="text"
+                inputMode="numeric"
+                placeholder="Enter 9-18 digit account number"
+                maxLength={18}
+                onKeyDown={handleAccountNumberKeyPress}
+                onChange={handleAccountNumberChange}
+                {...register("name", {
+                  onChange: (e) => handleAccountNumberChange(e)
+                })}
               />
               {errors.name && (
                 <p className="text-sm text-red-500">{errors.name.message}</p>
@@ -113,14 +180,21 @@ export function CreateAccountDrawer({ children }) {
                 <label htmlFor="ifsc" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                   IFSC Code
                 </label>
-                <Input id="ifsc" placeholder="e.g., Enter IFSC code" {...register("ifsc")} />
+                <Input 
+                  id="ifsc" 
+                  placeholder="e.g., SBIN0123456" 
+                  maxLength={11}
+                  onKeyDown={handleIFSCKeyPress}
+                  onChange={handleIFSCChange}
+                  {...register("ifsc", {
+                    onChange: (e) => handleIFSCChange(e)
+                  })}
+                />
                 {errors.ifsc && (
                   <p className="text-sm text-red-500">{errors.ifsc.message}</p>
                 )}
               </div>
             </div>
-
-
 
             <div className="space-y-2">
               <label

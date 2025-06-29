@@ -19,7 +19,7 @@ export default async function AccountPage({ params }) {
       <div className="flex gap-4 items-end justify-between">
         <div className="space-y-1">
           <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-purple-700">
-            {account.name}
+           A/C: {account.name}
           </h1>
           <p className="text-sm sm:text-base text-muted-foreground">
             Bank: <span className="font-medium text-gray-900">{account.bname}</span>
